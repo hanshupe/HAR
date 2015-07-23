@@ -9,11 +9,14 @@ Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible t
 
 Goal of this project is to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. Participants were asked to perform barbell lifts correctly and incorrectly in 5 different ways. This data was recorded at regular intervals. More information is available from the website here: http://groupware.les.inf.puc-rio.br/har (see the section on the Weight Lifting Exercise Dataset).
 
+
 ####Goal
 
 The goal of your project is to predict the manner in which they did the exercise. This is the "classe" variable in the training set. You may use any of the other variables to predict with. You should create a report describing how you built your model, how you used cross validation, what you think the expected out of sample error is, and why you made the choices you did. You will also use your prediction model to predict 20 different test cases.
 
+
 ####Algorithms Tested
+
 Several data mining algorithms were tested in order to find a model with high accuracy. The result of the comparison was that the random forest with tuning control delivered the best results.
 
 Algorithms considered
@@ -62,7 +65,8 @@ I have used caret createDataPartition method in caret package to split data into
 + Testing data - 30% of pml-training.csv
 
 
-CreatedDataPartition functions gives indices of split data. 
+CreatedDataPartition functions gives indices of split data.
+
 
 ####Further Cleaning
 
@@ -91,6 +95,7 @@ modFitRF <- train(classe ~.,data = trainData, method="rf",trControl=trControl);
 ```
 
 All variables are passed as predictor variables except classe to train function. Method is set to RandomForest and trainControl which we prepared in earlier step.
+
 
 ####Model details
 
@@ -128,7 +133,9 @@ The final value used for the model was mtry = 27.
 
 As we have plot the data into two sets, we have trained our model with training data. We have our model ready and we have to used rest 30% of data to test the model.
 
-#####Cleaning:
+
+#####Cleaning
+
 Same cleaning process is followed to prepare remaining 30% data for testing our model. Below are the steps for the same. Non-significant variables such as new_window, user name, timestamp were carefully removed to ignore noise and variance.
 
 ```
@@ -137,21 +144,24 @@ removeIndex <- grep("timestamp|X|user_name|new_window",names(testData));
 testData <- testData[,-removeIndex];
 ```
 
-#####Predicted Values:
+#####Predicted Values
+
 Once we have final testing data set, I have used `Predict()` function to predict the `Classe` variable of the testing data set
 
 ```
 predictedValues<-predict(modFitRF,testData);
 ```
 
-#####Viewing Predicted Values:
+#####Viewing Predicted Values
+
 Below code shows predicted values in a tabular format.
 
 ```
 View(predictedValues);
 ```
 
-#####Accuracy of predictions:
+#####Accuracy of predictions
+
 As expected the predictions are not correct in all cases. We can calculate the accuracy of the prediction:
 
 ```
@@ -164,7 +174,8 @@ pRes
 ##   0.9915   0.9893
 ```
 
-#####Expected out of sample error:
+#####Expected out of sample error
+
 We can calculate the expected out of sample error based on the test set that we created for cross-validation:
 
 ```
@@ -211,7 +222,7 @@ The expected out of sample error is: 0.8474 %
 Note: The confusionMatrix function from the Caret package does provide all the information that we calculated 'by hand' in the first part of the Cross-validation. It shows that both methods provide the same answer.
 
 
-####Comparing predicted values against actual Classe values of testing data set:
+####Comparing predicted values against actual Classe values of testing data set
 
 To cross check the out come of prediction, I added these a column next to Classe for comparision. Further, I took comparision of both by equating them. Comparision column show us if the prediction we did is correct or not. 
 Comparision values:

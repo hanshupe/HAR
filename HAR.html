@@ -163,24 +163,24 @@ The final value used for the model was mtry = 27. </code></pre>
 <h4>Cross Validation</h4>
 <p>As we have plot the data into two sets, we have trained our model with training data. We have our model ready and we have to used rest 30% of data to test the model.</p>
 <div id="cleaning" class="section level5">
-<h5>Cleaning:</h5>
+<h5>Cleaning</h5>
 <p>Same cleaning process is followed to prepare remaining 30% data for testing our model. Below are the steps for the same. Non-significant variables such as new_window, user name, timestamp were carefully removed to ignore noise and variance.</p>
 <pre><code>testData &lt;- validData[-trainIndex,];
 removeIndex &lt;- grep(&quot;timestamp|X|user_name|new_window&quot;,names(testData));
 testData &lt;- testData[,-removeIndex];</code></pre>
 </div>
 <div id="predicted-values" class="section level5">
-<h5>Predicted Values:</h5>
+<h5>Predicted Values</h5>
 <p>Once we have final testing data set, I have used <code>Predict()</code> function to predict the <code>Classe</code> variable of the testing data set</p>
 <pre><code>predictedValues&lt;-predict(modFitRF,testData);</code></pre>
 </div>
 <div id="viewing-predicted-values" class="section level5">
-<h5>Viewing Predicted Values:</h5>
+<h5>Viewing Predicted Values</h5>
 <p>Below code shows predicted values in a tabular format.</p>
 <pre><code>View(predictedValues);</code></pre>
 </div>
 <div id="accuracy-of-predictions" class="section level5">
-<h5>Accuracy of predictions:</h5>
+<h5>Accuracy of predictions</h5>
 <p>As expected the predictions are not correct in all cases. We can calculate the accuracy of the prediction:</p>
 <pre><code>pRes &lt;- postResample(predictedValues, testData$classe)
 pRes</code></pre>
@@ -188,7 +188,7 @@ pRes</code></pre>
 ##   0.9915   0.9893</code></pre>
 </div>
 <div id="expected-out-of-sample-error" class="section level5">
-<h5>Expected out of sample error:</h5>
+<h5>Expected out of sample error</h5>
 <p>We can calculate the expected out of sample error based on the test set that we created for cross-validation:</p>
 <pre><code>cfM &lt;- confusionMatrix(predictedValues, testData$classe)
 cfM</code></pre>
@@ -228,7 +228,7 @@ cfM</code></pre>
 </div>
 </div>
 <div id="comparing-predicted-values-against-actual-classe-values-of-testing-data-set" class="section level4">
-<h4>Comparing predicted values against actual Classe values of testing data set:</h4>
+<h4>Comparing predicted values against actual Classe values of testing data set</h4>
 <p>To cross check the out come of prediction, I added these a column next to Classe for comparision. Further, I took comparision of both by equating them. Comparision column show us if the prediction we did is correct or not. Comparision values:</p>
 <p>TRUE - This means, actual value <code>classe</code> and predicted value <code>predictedValues</code> are same. Our model worked perfect for this case. FALSE - Actual value and predicted value are different. Model was not good enough to predict that particular case. But it’ll be difficult to check each and every row for TRUE or FALSE. So I took total count of case in each segment (TRUE or FALSE). I have used <code>length()</code> function to get total count.</p>
 <pre><code>testData$predictedValues&lt;-predictedValues;
